@@ -1,0 +1,27 @@
+/* Modo de leitura de página única */
+[read-mode="single-page"] {
+  body {
+    overflow-y: auto;
+  }
+
+  #div-gallery {
+    flex-direction: column;
+  }
+
+  #div-gallery img {
+    width: 100% !important;
+    object-position: center !important;
+  }
+}
+
+/*
+[read-mode="double-page"] {
+  #svg-single-page {
+    display: inline;
+  }
+
+  #svg-double-page {
+    display: none;
+  }
+}
+*/

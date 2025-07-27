@@ -1,0 +1,5 @@
+pip
+asyncio
+nest_asyncio
+flask[async]
+playwright

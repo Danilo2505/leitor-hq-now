@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename = '/css/reset.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename = '/css/fonts.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename = '/css/colors.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename = '/css/read-mode.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename = '/css/style.css') }}"
+    />
+    <title>Leitor HQ Now</title>
+  </head>
+  <script src="{{ url_for('static', filename = 'js/helpers.js') }}"></script>
+  <script src="{{ url_for('static', filename = 'js/ui.js') }}" defer></script>
+  <script
+    src="{{ url_for('static', filename = 'js/loadSetup.js') }}"
+    defer
+  ></script>
+  <script src="{{ url_for('static', filename = 'js/main.js') }}" defer></script>
+  <body>
+    <header id="header-menu">
+      <div>
+        <button id="button-read-mode">
+          <img
+            id="svg-single-page"
+            title="Abrir em tela cheia"
+            src="{{ url_for('static', filename = 'assets/icons/file-earmark.svg') }}"
+            alt="Abrir em tela cheia"
+            onload="fetchSvg(this)"
+          />
+          <img
+            id="svg-double-page"
+            title="Sair da tela cheia"
+            src="{{ url_for('static', filename = 'assets/icons/book-half.svg') }}"
+            alt="Sair da tela cheia"
+            onload="fetchSvg(this)"
+          />
+        </button>
+        <button
+          id="button-open-modal-load-content"
+          class="open-modal"
+          title="Carregar Links das Imagens"
+        >
+          <img
+            src="{{ url_for('static', filename = 'assets/icons/upload.svg') }}"
+            alt="Carregar Links das Imagens"
+            onload="fetchSvg(this)"
+          />
+        </button>
+        <button id="button-load-pages" title="Carregar Imagens">
+          <img
+            src="{{ url_for('static', filename = 'assets/icons/arrow-clockwise.svg') }}"
+            alt="Carregar Imagens"
+            onload="fetchSvg(this)"
+          />
+        </button>
+      </div>
+      <button id="button-fullscreen-toggle">
+        <img
+          id="svg-fullscreen"
+          src="{{ url_for('static', filename = 'assets/icons/arrows-fullscreen.svg') }}"
+          alt="Abrir em tela cheia"
+          onload="fetchSvg(this)"
+        />
+        <img
+          id="svg-fullscreen-exit"
+          src="{{ url_for('static', filename = 'assets/icons/fullscreen-exit.svg') }}"
+          alt="Sair da tela cheia"
+          onload="fetchSvg(this)"
+        />
+      </button>
+      <button id="button-previous" title="Voltar à página anterior">
+        <img
+          src="{{ url_for('static', filename = 'assets/icons/caret-left-fill.svg') }}"
+          alt="Página anterior"
+          onload="fetchSvg(this)"
+        />
+      </button>
+      <button id="button-next" title="Ir à próxima página">
+        <img
+          src="{{ url_for('static', filename = 'assets/icons/caret-right-fill.svg') }}"
+          alt="Página seguinte"
+          onload="fetchSvg(this)"
+        />
+      </button>
+    </header>
+    <main id="main-reader">
+      <div id="div-gallery">
+        <img style="display: none" src="#" alt="Página vazia" />
+      </div>
+    </main>
+    <div id="div-load-screen">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        class="bi bi-arrow-clockwise"
+        viewBox="0 0 16 16"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"
+        />
+        <path
+          d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"
+        />
+      </svg>
+      <span>Carregando...</span>
+    </div>
+    <dialog
+      id="modal-load-content"
+      class="modal"
+      aria-labelledby="dialog-title"
+    >
+      <div>
+        <h2>Carregar Links das Imagens</h2>
+        <form method="dialog">
+          <label for="link">Link do Capítulo:</label>
+          <input
+            type="url"
+            id="link"
+            placeholder="Digite os links das páginas"
+            required
+          />
+          <button id="button-load-content" type="submit">Carregar</button>
+        </form>
+        <button
+          id="button-close-modal-load-content"
+          type="button"
+          class="close-modal"
+          aria-label="Fechar modal"
+        >
+          X
+        </button>
+      </div>
+    </dialog>
+  </body>
+</html>
