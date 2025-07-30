@@ -2,7 +2,8 @@
 
 ## Pendências
 
-- [ ] Adicionar modo de scroll lateral nas páginas duplas (width 200%), quando estiva no modo de leitura de página única
+- [ ] Ajustar CSS para Mobile
+- [ ] Talvez adicionar modo de scroll lateral nas páginas duplas (width 200%), quando estiva no modo de leitura de página única
 - [ ] Talvez colocar animações
 - [ ] Adicionar lupa
   - [] https://codepen.io/code-tomato/pen/XWvWXWx

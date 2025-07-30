@@ -26,7 +26,7 @@ function toggleReadMode(cssAttributeName, value) {
 }
 
 // Carrega as imagens das páginas
-async function loadPagesImages() {
+async function loadPagesImages(loadScreen = false) {
   const fragment = document.createDocumentFragment();
   const divGallery = document.querySelector("#div-gallery");
   const pageLinks = localStorage.getItem("pageLinks") || JSON.stringify([]);
@@ -34,6 +34,10 @@ async function loadPagesImages() {
 
   localStorage.setItem("pageLinks", pageLinks);
 
+  if (loadScreen) {
+    showLoadScreen();
+  }
+  
   const links = JSON.parse(pageLinks);
   for (let index = 0; index < links.length; index++) {
     const imageUrl = links[index];
@@ -65,12 +69,22 @@ async function loadPagesImages() {
     }
 
     fragment.appendChild(img);
+    
+    
+    if (loadScreen) {
+        setLoadScreenProgressInfo(`${index + 1} / ${links.length}`);
+    }
   }
 
   activateNextButton();
 
   // Substitui os elementos-filho da div-gallery pelas imagens do fragmento
   divGallery.replaceChildren(fragment);
+  
+  
+  if (loadScreen) {
+    hideLoadScreen();
+  }
 }
 
 // Sai ou entra em tela cheia
@@ -97,14 +111,21 @@ function toggleFullscreenMode() {
   }
 }
 
-function showLoadScreen() {
+function setLoadScreenProgressInfo(info = "") {
+    const spanProgressInfo = document.querySelector("#div-load-screen > .span-progress-info");
+    spanProgressInfo.textContent = info;
+}
+
+function showLoadScreen(message = "") {
   const divLoadScreen = document.querySelector("#div-load-screen");
   divLoadScreen.setAttribute("style", "display:flex");
+  setLoadScreenProgressInfo(info = message);
 }
 
 function hideLoadScreen() {
   const divLoadScreen = document.querySelector("#div-load-screen");
   divLoadScreen.setAttribute("style", "display:none");
+  setLoadScreenProgressInfo("");
 }
 
 function openModalLoadContent() {

@@ -36,9 +36,7 @@ buttonNext.addEventListener("click", goToNextPage);
 // Carrega as imagens das páginas
 const buttonLoadPages = document.querySelector("#button-load-pages");
 buttonLoadPages.addEventListener("click", async () => {
-  showLoadScreen();
-  await loadPagesImages();
-  hideLoadScreen();
+  await loadPagesImages(loadScreen=true);
 });
 
 // Sai ou entra em tela cheia
@@ -65,7 +63,7 @@ formConteudo.addEventListener("submit", async (event) => {
   }
 
   // Mostra a tela de carregamento e fecha o modal
-  showLoadScreen();
+  showLoadScreen(message = "Extraindo conteúdo...");
   modalLoadContent.close();
 
   // Ajusta o link caso o link não leve para algum capítulo ou página
@@ -86,10 +84,12 @@ formConteudo.addEventListener("submit", async (event) => {
   // Salva o conteúdo no localStorage e depois o carrega na página
   loadContent(link)
     .then(async () => {
-      await loadPagesImages();
-      hideLoadScreen();
+      loadPagesImages(loadScreen=true);
     })
-    .catch((error) => alert("Falha ao carregar o conteúdo"));
+  .catch((error) => {
+        hideLoadScreen();
+        alert("Falha ao carregar o conteúdo");
+    });
 });
 
 // Salva o conteúdo no localStorage

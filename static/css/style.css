@@ -130,6 +130,10 @@ svg {
   color: var(--accent-color-1);
 }
 
+#div-load-screen > .span-progress-info {
+  font-size: 1.5rem;
+}
+
 #div-load-screen > * {
   color: inherit;
   font-size: 2rem;

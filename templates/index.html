@@ -42,14 +42,14 @@
           <img
             id="svg-single-page"
             title="Abrir em tela cheia"
-            src="{{ url_for('static', filename = 'assets/icons/file-earmark.svg') }}"
+            src="{{ url_for('static', filename = 'assets/icons/file-earmark-fill.svg') }}"
             alt="Abrir em tela cheia"
             onload="fetchSvg(this)"
           />
           <img
             id="svg-double-page"
             title="Sair da tela cheia"
-            src="{{ url_for('static', filename = 'assets/icons/book-half.svg') }}"
+            src="{{ url_for('static', filename = 'assets/icons/book-fill.svg') }}"
             alt="Sair da tela cheia"
             onload="fetchSvg(this)"
           />
@@ -124,6 +124,7 @@
           d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"
         />
       </svg>
+      <span class="span-progress-info"></span>
       <span>Carregando...</span>
     </div>
     <dialog
