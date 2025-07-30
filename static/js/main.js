@@ -1,3 +1,20 @@
+// Muda o modo da barra de ferramentas entre expandida e minimizada
+const buttonToggleToolbarMode = document.querySelector(
+  "#button-toggle-toolbar-mode"
+);
+buttonToggleToolbarMode.addEventListener("click", async () => {
+  console.log("A");
+  let currentToolbarMode = localStorage.getItem("toolbarMode");
+
+  if (currentToolbarMode == "expanded") {
+    toggleToolbarMode("toolbar-mode", "minimized");
+    localStorage.setItem("toolbarMode", "minimized");
+  } else {
+    toggleToolbarMode("toolbar-mode", "expanded");
+    localStorage.setItem("toolbarMode", "expanded");
+  }
+});
+
 // Muda o modo de leitura entre página única ou página dupla
 const buttonReadMode = document.querySelector("#button-read-mode");
 buttonReadMode.addEventListener("click", async () => {
@@ -36,7 +53,7 @@ buttonNext.addEventListener("click", goToNextPage);
 // Carrega as imagens das páginas
 const buttonLoadPages = document.querySelector("#button-load-pages");
 buttonLoadPages.addEventListener("click", async () => {
-  await loadPagesImages(loadScreen=true);
+  await loadPagesImages((loadScreen = true));
 });
 
 // Sai ou entra em tela cheia
@@ -63,7 +80,7 @@ formConteudo.addEventListener("submit", async (event) => {
   }
 
   // Mostra a tela de carregamento e fecha o modal
-  showLoadScreen(message = "Extraindo conteúdo...");
+  showLoadScreen((message = "Extraindo conteúdo..."));
   modalLoadContent.close();
 
   // Ajusta o link caso o link não leve para algum capítulo ou página
@@ -84,11 +101,11 @@ formConteudo.addEventListener("submit", async (event) => {
   // Salva o conteúdo no localStorage e depois o carrega na página
   loadContent(link)
     .then(async () => {
-      loadPagesImages(loadScreen=true);
+      loadPagesImages((loadScreen = true));
     })
-  .catch((error) => {
-        hideLoadScreen();
-        alert("Falha ao carregar o conteúdo");
+    .catch((error) => {
+      hideLoadScreen();
+      alert("Falha ao carregar o conteúdo");
     });
 });
 

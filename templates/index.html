@@ -20,7 +20,7 @@
     />
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename = '/css/read-mode.css') }}"
+      href="{{ url_for('static', filename = '/css/modes.css') }}"
     />
     <link
       rel="stylesheet"
@@ -37,70 +37,92 @@
   <script src="{{ url_for('static', filename = 'js/main.js') }}" defer></script>
   <body>
     <header id="header-menu">
-      <div>
-        <button id="button-read-mode">
+      <div id="div-toolbar">
+        <button id="button-toggle-toolbar-mode">
           <img
-            id="svg-single-page"
+            id="svg-expand-toolbar"
             title="Abrir em tela cheia"
-            src="{{ url_for('static', filename = 'assets/icons/file-earmark-fill.svg') }}"
-            alt="Abrir em tela cheia"
+            src="{{ url_for('static', filename = 'assets/icons/eye-fill.svg') }}"
+            alt="Mostar todos os botões"
             onload="fetchSvg(this)"
           />
           <img
-            id="svg-double-page"
-            title="Sair da tela cheia"
-            src="{{ url_for('static', filename = 'assets/icons/book-fill.svg') }}"
+            id="svg-collapse-toolbar"
+            title="Esconder botões"
+            src="{{ url_for('static', filename = 'assets/icons/eye-slash-fill.svg') }}"
             alt="Sair da tela cheia"
             onload="fetchSvg(this)"
           />
         </button>
-        <button
-          id="button-open-modal-load-content"
-          class="open-modal"
-          title="Carregar Links das Imagens"
-        >
-          <img
-            src="{{ url_for('static', filename = 'assets/icons/upload.svg') }}"
-            alt="Carregar Links das Imagens"
-            onload="fetchSvg(this)"
-          />
-        </button>
-        <button id="button-load-pages" title="Carregar Imagens">
-          <img
-            src="{{ url_for('static', filename = 'assets/icons/arrow-clockwise.svg') }}"
-            alt="Carregar Imagens"
-            onload="fetchSvg(this)"
-          />
-        </button>
+        <div id="div-collapsible-toolbar">
+          <div>
+            <button id="button-read-mode">
+              <img
+                id="svg-single-page"
+                title="Abrir em tela cheia"
+                src="{{ url_for('static', filename = 'assets/icons/file-earmark-fill.svg') }}"
+                alt="Abrir em tela cheia"
+                onload="fetchSvg(this)"
+              />
+              <img
+                id="svg-double-page"
+                title="Sair da tela cheia"
+                src="{{ url_for('static', filename = 'assets/icons/book-fill.svg') }}"
+                alt="Sair da tela cheia"
+                onload="fetchSvg(this)"
+              />
+            </button>
+            <button
+              id="button-open-modal-load-content"
+              class="open-modal"
+              title="Carregar Links das Imagens"
+            >
+              <img
+                src="{{ url_for('static', filename = 'assets/icons/upload.svg') }}"
+                alt="Carregar Links das Imagens"
+                onload="fetchSvg(this)"
+              />
+            </button>
+            <button id="button-load-pages" title="Carregar Imagens">
+              <img
+                src="{{ url_for('static', filename = 'assets/icons/arrow-clockwise.svg') }}"
+                alt="Carregar Imagens"
+                onload="fetchSvg(this)"
+              />
+            </button>
+          </div>
+          <div>
+            <button id="button-fullscreen-toggle">
+              <img
+                id="svg-fullscreen"
+                src="{{ url_for('static', filename = 'assets/icons/arrows-fullscreen.svg') }}"
+                alt="Abrir em tela cheia"
+                onload="fetchSvg(this)"
+              />
+              <img
+                id="svg-fullscreen-exit"
+                src="{{ url_for('static', filename = 'assets/icons/fullscreen-exit.svg') }}"
+                alt="Sair da tela cheia"
+                onload="fetchSvg(this)"
+              />
+            </button>
+          </div>
+          <button id="button-previous" title="Voltar à página anterior">
+            <img
+              src="{{ url_for('static', filename = 'assets/icons/caret-left-fill.svg') }}"
+              alt="Página anterior"
+              onload="fetchSvg(this)"
+            />
+          </button>
+          <button id="button-next" title="Ir à próxima página">
+            <img
+              src="{{ url_for('static', filename = 'assets/icons/caret-right-fill.svg') }}"
+              alt="Página seguinte"
+              onload="fetchSvg(this)"
+            />
+          </button>
+        </div>
       </div>
-      <button id="button-fullscreen-toggle">
-        <img
-          id="svg-fullscreen"
-          src="{{ url_for('static', filename = 'assets/icons/arrows-fullscreen.svg') }}"
-          alt="Abrir em tela cheia"
-          onload="fetchSvg(this)"
-        />
-        <img
-          id="svg-fullscreen-exit"
-          src="{{ url_for('static', filename = 'assets/icons/fullscreen-exit.svg') }}"
-          alt="Sair da tela cheia"
-          onload="fetchSvg(this)"
-        />
-      </button>
-      <button id="button-previous" title="Voltar à página anterior">
-        <img
-          src="{{ url_for('static', filename = 'assets/icons/caret-left-fill.svg') }}"
-          alt="Página anterior"
-          onload="fetchSvg(this)"
-        />
-      </button>
-      <button id="button-next" title="Ir à próxima página">
-        <img
-          src="{{ url_for('static', filename = 'assets/icons/caret-right-fill.svg') }}"
-          alt="Página seguinte"
-          onload="fetchSvg(this)"
-        />
-      </button>
     </header>
     <main id="main-reader">
       <div id="div-gallery">

@@ -1,3 +1,14 @@
+function setToolbarMode() {
+  console.log("B");
+  const storedToggleToolbarMode =
+    localStorage.getItem("toolbarMode") || "expanded";
+  localStorage.setItem("toolbarMode", storedToggleToolbarMode);
+
+  const mode =
+    storedToggleToolbarMode === "expanded" ? "expanded" : "minimized";
+  toggleToolbarMode("toolbar-mode", mode);
+}
+
 function setReadMode() {
   const storedReadMode = localStorage.getItem("readMode") || "single-page";
   localStorage.setItem("readMode", storedReadMode);
@@ -37,6 +48,7 @@ async function waitSvgFetching(callback) {
   callback();
 }
 
+setToolbarMode();
 setReadMode();
 setFullscreenMode();
 deactivateNavigationButtons();

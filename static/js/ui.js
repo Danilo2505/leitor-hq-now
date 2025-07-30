@@ -1,3 +1,24 @@
+// Expande ou minimiza a barra de ferramentas
+function toggleToolbarMode(cssAttributeName, value) {
+  document.documentElement.setAttribute(cssAttributeName, value);
+
+  const buttonToggleToolbarMode = document.querySelector(
+    "#button-toggle-toolbar-mode"
+  );
+  const svgExpandToolbar = document.querySelector("#svg-expand-toolbar");
+  const svgCollapseToolbar = document.querySelector("#svg-collapse-toolbar");
+
+  if (!buttonToggleToolbarMode) return;
+
+  if (value === "expanded") {
+    svgExpandToolbar.classList.remove("hidden-element");
+    svgCollapseToolbar.classList.add("hidden-element");
+  } else if (value === "minimized") {
+    svgExpandToolbar.classList.add("hidden-element");
+    svgCollapseToolbar.classList.remove("hidden-element");
+  }
+}
+
 // Muda o Modo de Leitura (página única ou página dupla)
 function toggleReadMode(cssAttributeName, value) {
   document.documentElement.setAttribute(cssAttributeName, value);
@@ -37,7 +58,7 @@ async function loadPagesImages(loadScreen = false) {
   if (loadScreen) {
     showLoadScreen();
   }
-  
+
   const links = JSON.parse(pageLinks);
   for (let index = 0; index < links.length; index++) {
     const imageUrl = links[index];
@@ -69,10 +90,9 @@ async function loadPagesImages(loadScreen = false) {
     }
 
     fragment.appendChild(img);
-    
-    
+
     if (loadScreen) {
-        setLoadScreenProgressInfo(`${index + 1} / ${links.length}`);
+      setLoadScreenProgressInfo(`${index + 1} / ${links.length}`);
     }
   }
 
@@ -80,8 +100,7 @@ async function loadPagesImages(loadScreen = false) {
 
   // Substitui os elementos-filho da div-gallery pelas imagens do fragmento
   divGallery.replaceChildren(fragment);
-  
-  
+
   if (loadScreen) {
     hideLoadScreen();
   }
@@ -112,14 +131,16 @@ function toggleFullscreenMode() {
 }
 
 function setLoadScreenProgressInfo(info = "") {
-    const spanProgressInfo = document.querySelector("#div-load-screen > .span-progress-info");
-    spanProgressInfo.textContent = info;
+  const spanProgressInfo = document.querySelector(
+    "#div-load-screen > .span-progress-info"
+  );
+  spanProgressInfo.textContent = info;
 }
 
 function showLoadScreen(message = "") {
   const divLoadScreen = document.querySelector("#div-load-screen");
   divLoadScreen.setAttribute("style", "display:flex");
-  setLoadScreenProgressInfo(info = message);
+  setLoadScreenProgressInfo((info = message));
 }
 
 function hideLoadScreen() {
