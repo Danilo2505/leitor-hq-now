@@ -28,6 +28,11 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/reader")
+def reader():
+    return render_template("reader.html")
+
+
 @app.route("/ola-mundo")
 def ola_mundo():
     return "Olá, Mundo!"

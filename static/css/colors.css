@@ -1,8 +1,25 @@
 :root {
   --bg-color-1: #000000;
-  --bg-color-2: #202020;
-  --bg-color-3: #505050;
+  --bg-color-2: #101010;
+  --bg-color-3: #202020;
+  --bg-color-4: #ffffff;
+  --bg-color-5: #fffdf0;
+  --bg-color-6: #dfdfdf;
   --accent-color-1: #ffffff;
+  --accent-color-2: #b60202;
+  --accent-color-3: #7f55ff;
+  --accent-color-4: #07e8f6;
+}
+
+/* Tema Claro */
+[data-theme="light"] {
+  --bg-color-1: #ffffff;
+  --bg-color-2: #fffdf0;
+  --bg-color-3: #dfdfdf;
+  --bg-color-4: #000000;
+  --bg-color-5: #101010;
+  --bg-color-6: #202020;
+  --accent-color-1: #000000;
   --accent-color-2: #b60202;
   --accent-color-3: #7f55ff;
   --accent-color-4: #07e8f6;

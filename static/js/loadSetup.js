@@ -1,55 +1,62 @@
+// Inicializa a barra de ferramentas com base no valor salvo no localStorage
 function setToolbarMode() {
-  console.log("B");
-  const storedToggleToolbarMode =
-    localStorage.getItem("toolbarMode") || "expanded";
-  localStorage.setItem("toolbarMode", storedToggleToolbarMode);
+  const storedMode = localStorage.getItem("toolbarMode") || "expanded";
+  localStorage.setItem("toolbarMode", storedMode);
 
-  const mode =
-    storedToggleToolbarMode === "expanded" ? "expanded" : "minimized";
+  const mode = storedMode === "expanded" ? "expanded" : "minimized";
   toggleToolbarMode("toolbar-mode", mode);
 }
 
+// Inicializa o modo de leitura (página única ou dupla) com base no localStorage
 function setReadMode() {
-  const storedReadMode = localStorage.getItem("readMode") || "single-page";
-  localStorage.setItem("readMode", storedReadMode);
+  const storedMode = localStorage.getItem("readMode") || "single-page";
+  localStorage.setItem("readMode", storedMode);
 
-  const mode = storedReadMode === "single-page" ? "single-page" : "double-page";
+  const mode = storedMode === "single-page" ? "single-page" : "double-page";
   toggleReadMode("read-mode", mode);
 }
 
+// Inicializa o estado visual dos ícones de tela cheia
 function setFullscreenMode() {
-  const buttonFullscreenToggle = document.querySelector(
-    "#button-fullscreen-toggle"
-  );
-  const svgFullscreen = document.querySelector("#svg-fullscreen");
-  const svgFullscreenExit = document.querySelector("#svg-fullscreen-exit");
+  const btnToggle = document.querySelector("#button-fullscreen-toggle");
+  const iconEnter = document.querySelector("#svg-fullscreen");
+  const iconExit = document.querySelector("#svg-fullscreen-exit");
 
-  buttonFullscreenToggle.setAttribute("title", "Entrar no modo de tela cheia");
-  svgFullscreen.classList.remove("hidden-element");
-  svgFullscreenExit.classList.add("hidden-element");
+  btnToggle.setAttribute("title", "Entrar no modo de tela cheia");
+  iconEnter.classList.remove("hidden-element");
+  iconExit.classList.add("hidden-element");
 }
 
+// Desativa ambos os botões de navegação
 function deactivateNavigationButtons() {
   deactivatePreviousButton();
   deactivateNextButton();
 }
 
-// Espera todos os fetchSvg terminarem
+// Aguarda a substituição das imagens por SVGs antes de executar um callback
 async function waitSvgFetching(callback) {
+  // Verifica se ainda há <img> com fetchSvg pendente no onload
   while (
-    // Verifica se alguma imagem tem "fetchSvg(this)" no atributo "onload"
-    Array.from(document.querySelectorAll("img")).some((img) => {
-      String(img.getAttribute("onload")).includes("fetchSvg(this)");
-    })
+    Array.from(document.querySelectorAll("img")).some((img) =>
+      String(img.getAttribute("onload")).includes("fetchSvg(this)")
+    )
   ) {
-    await sleep(100);
+    await sleep(100); // Aguarda um pouco antes de checar novamente
   }
-  await sleep(100);
+
+  await sleep(100); // Pequeno atraso extra para garantir segurança
   callback();
 }
 
+// Executa configurações iniciais da interface
 setToolbarMode();
 setReadMode();
 setFullscreenMode();
 deactivateNavigationButtons();
 waitSvgFetching(hideLoadScreen);
+
+// Define uma variável CSS com a altura visível da tela (usado em layout responsivo)
+document.documentElement.style.setProperty(
+  "--real-height",
+  `${getVisibleHeight()}px`
+);

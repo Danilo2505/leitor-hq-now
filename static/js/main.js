@@ -1,3 +1,56 @@
+/*
+async function updateDebugInfo(updateRateMs = 1000) {
+  while (true) {
+    const spanDebugInfo = document.querySelector("#span-debug-info");
+
+    spanDebugInfo.innerHTML = `${window.innerHeight} <br />
+    ${window.outerHeight} <br />
+    ${visualViewport.height}
+    `;
+
+    await sleep(updateRateMs);
+  }
+}
+
+updateDebugInfo(1000);
+*/
+
+let oldScrollHeight = document.documentElement.scrollHeight;
+let oldScrollY = window.scrollY;
+
+// Guarda as Informações Antigas do Scroll
+function storeScrollSnapshot() {
+  oldScrollHeight = document.documentElement.scrollHeight;
+  oldScrollY = window.scrollY;
+}
+
+// Ajusta a Posição do Scroll
+function restoreScrollPosition() {
+  const currentScrollHeight = document.documentElement.scrollHeight;
+  const newScrollY = (oldScrollY * currentScrollHeight) / oldScrollHeight;
+
+  window.scrollTo(0, newScrollY);
+
+  storeScrollSnapshot();
+}
+
+// Quando o tamanho da janela mudar ou quando a orientação mudar...
+window.addEventListener("resize", () => {
+  document.documentElement.style.setProperty(
+    "--real-height",
+    `${getVisibleHeight()}px`
+  );
+
+  // Ajusta a posição do scroll
+  restoreScrollPosition();
+});
+
+// Atualiza o estado dos Botões de Navegação quando o scroll termina
+window.addEventListener("scrollend", updateButtonState);
+
+// Atualiza o estado dos Botões de Navegação quando o touch termina
+window.addEventListener("touchend", updateButtonState);
+
 // Muda o modo da barra de ferramentas entre expandida e minimizada
 const buttonToggleToolbarMode = document.querySelector(
   "#button-toggle-toolbar-mode"
@@ -43,17 +96,24 @@ const buttonCloseModalLoadContent = document.querySelector(
 );
 buttonCloseModalLoadContent.addEventListener("click", closeModalLoadContent);
 
-// Botões de navegação
+// Botões de Navegação
 const buttonPrevious = document.querySelector("#button-previous");
 const buttonNext = document.querySelector("#button-next");
 
-buttonPrevious.addEventListener("click", goToPreviousPage);
-buttonNext.addEventListener("click", goToNextPage);
+buttonPrevious.addEventListener("click", () => {
+  goToPreviousPage();
+  storeScrollSnapshot();
+});
+buttonNext.addEventListener("click", () => {
+  goToNextPage();
+  storeScrollSnapshot();
+});
 
 // Carrega as imagens das páginas
 const buttonLoadPages = document.querySelector("#button-load-pages");
 buttonLoadPages.addEventListener("click", async () => {
   await loadPagesImages((loadScreen = true));
+  storeScrollSnapshot();
 });
 
 // Sai ou entra em tela cheia

@@ -1,9 +1,5 @@
 /* Modo de leitura de página única */
 [read-mode="single-page"] {
-  body {
-    overflow-y: auto;
-  }
-
   #div-gallery {
     flex-direction: column;
   }
@@ -15,6 +11,12 @@
 }
 
 [toolbar-mode="minimized"] {
+  #div-toolbar > #div-collapsible-toolbar {
+    display: none;
+  }
+}
+
+[toolbar-mode="hide-navigation-buttons"] {
   #div-toolbar > #div-collapsible-toolbar {
     display: none;
   }
