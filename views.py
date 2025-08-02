@@ -1,6 +1,10 @@
 from main import app
 from flask import render_template, request, jsonify
-import scraper
+
+to_scrape_true_or_false = False
+
+if to_scrape_true_or_false:
+    import scraper
 
 
 # Tratamento de erros
@@ -38,11 +42,46 @@ def ola_mundo():
     return "Olá, Mundo!"
 
 
-@app.route("/api")
-async def api():
-    link = str(request.args.get("link", type=str, default=1))
-    if link.startswith("http"):
-        resposta = jsonify(f"{await scraper.main(link)}")
+if to_scrape_true_or_false:
+
+    @app.route("/api")
+    async def api():
+        link = str(request.args.get("link", type=str, default=1))
+        if link.startswith("http"):
+            resposta = jsonify(f"{await scraper.scrape_chapter_image_links(link)}")
+            return resposta
+        else:
+            return jsonify("[]")
+
+    @app.route("/api/hq-now-image-links")
+    async def api_hq_now_chapter_image_links():
+        link = str(request.args.get("link", type=str, default=1))
+        if not link.startswith("http"):
+            return jsonify("[]")
+
+        resposta = jsonify(
+            f"{await scraper.scrape_hq_now(content_to_scrape='hq_now_chapter_image_links',  link=link)}"
+        )
         return resposta
-    else:
-        return jsonify("[]")
+
+    @app.route("/api/hq-now-image-links")
+    async def api_hq_now_chapter_info():
+        link = str(request.args.get("link", type=str, default=1))
+        if not link.startswith("http"):
+            return jsonify("[]")
+
+        resposta = jsonify(
+            f"{await scraper.scrape_hq_now(content_to_scrape='hq_now_chapter_info',     link=link)}"
+        )
+        return resposta
+
+    @app.route("/api/hq-now-comics-info")
+    async def api_hq_now_comics_info():
+        link = str(request.args.get("link", type=str, default=1))
+        if not link.startswith("http"):
+            return jsonify("[]")
+
+        resposta = jsonify(
+            f"{await scraper.scrape_hq_now(content_to_scrape='hq_now_comics_info',  link=link)}"
+        )
+        return resposta

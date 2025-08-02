@@ -1,0 +1,347 @@
+:root {
+  --card-max-height-1: 70dvh;
+  --cards-collection-padding: 8px;
+}
+
+/* ----- Estilização por Classes ----- */
+.hidden-element {
+  display: none;
+}
+
+.inactive-button {
+  background-color: var(--bg-color-2);
+}
+
+/* ----- Menu ----- */
+header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: fit-content;
+  box-sizing: border-box;
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 1rem;
+  z-index: 1;
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.6) 20%,
+    var(--bg-color-1) 100%
+  );
+}
+
+header > h1 {
+  margin: 0;
+}
+
+header > ul {
+  display: flex;
+  overflow: hidden;
+  flex-shrink: 0;
+  min-width: 0;
+  flex-wrap: nowrap;
+  gap: 1rem;
+}
+
+header > ul > li,
+header > ul > li > #button-add-comics {
+  display: flex;
+  height: 100%;
+  width: fit-content;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+header > ul > li:has(#button-add-comics) > button {
+  background-color: transparent;
+  padding: 0;
+}
+
+header > ul > li:hover {
+  color: var(--accent-color-3);
+  /* "Borda" sob o elemento se mudar a posição dele */
+  box-shadow: inset 0 -0.125rem 0 currentColor;
+}
+
+header > ul > li > * {
+  display: none;
+  height: fit-content;
+  color: currentColor;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+header > ul > li svg {
+  height: 1.75rem;
+}
+
+header > ul > li #svg-add-comics {
+  display: block;
+}
+
+/* ----- Conteúdo principal ----- */
+main {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+/* --- Carrossel com as últimas HQs --- */
+#div-last-chapters {
+  align-self: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* - Cards das últimas HQs - */
+#ul-last-chapters {
+  display: flex;
+  overflow: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-gutter: stable both-edges;
+  scrollbar-width: none;
+}
+
+#ul-last-chapters > li {
+  display: flex;
+  scroll-snap-align: start;
+  justify-content: center;
+  width: 100%;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+#ul-last-chapters > li > img {
+  width: 100%;
+  border-radius: 1rem;
+  border: 2px solid var(--accent-color-1);
+  aspect-ratio: 2/3;
+  object-fit: cover;
+  object-position: top;
+}
+
+.last-chapters-chapter-info {
+  display: none;
+  padding-bottom: 2rem;
+}
+
+/* - Botões de navegação - */
+#div-last-navigators {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* - Indicadores de paginação - */
+#div-last-chapters-indicators {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  height: 0.25rem;
+  gap: 0.5rem;
+}
+
+#div-last-chapters-indicators > * {
+  background-color: var(--accent-color-1);
+  border-radius: 50dvh;
+  aspect-ratio: 5 / 1;
+}
+
+#div-last-chapters-indicators > *.active-pagination-indicator {
+  background-color: var(--accent-color-3);
+}
+
+/* --- Sessões de HQs --- */
+.section-commics-cards {
+  position: relative;
+}
+
+.section-commics-cards > div {
+  display: flex;
+}
+
+/* - Ul com os cards - */
+.ul-cards-collection {
+  flex-grow: 1;
+  display: flex;
+  /* gap: 0.5rem; */
+  overflow: auto;
+  scrollbar-width: none;
+}
+
+.ul-cards-collection > li {
+  position: relative;
+  display: flex;
+  overflow: clip;
+  aspect-ratio: 2/3;
+  padding: 0 calc(var(--cards-collection-padding) / 2);
+  /* border: 2px solid var(--accent-color-1); */
+  flex-shrink: 0;
+}
+
+.ul-cards-collection > li > img {
+  border-radius: 0.5rem;
+  aspect-ratio: inherit;
+  object-fit: cover;
+  object-position: top;
+  width: 100%;
+}
+
+.ul-cards-collection > li > span {
+  width: calc(100% - var(--cards-collection-padding));
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 0;
+  padding: 0.5rem;
+  /* width: 100%; */
+  flex-grow: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* - Botões de navegação - */
+.section-commics-cards > div > button {
+  display: none;
+}
+
+/* - Botões de navegação - */
+/*
+.section-commics-cards > div {
+  display: flex;
+}
+
+.section-commics-cards > div > button {
+  visibility: hidden;
+  z-index: 1;
+  position: absolute;
+  width: 3rem;
+  height: 100%;
+  max-height: var(--card-max-height-2);
+  background-color: rgba(0, 0, 0, 0.7);
+  border: none;
+}
+
+.section-commics-cards > div > button:hover {
+  visibility: visible;
+}
+
+.section-commics-cards > div > button > svg {
+  width: 100%;
+  height: auto;
+}
+
+.section-commics-cards > div > .button-next {
+  right: 0;
+}
+*/
+
+/* ----- Responsividade ----- */
+/* --- Responsividade para tablets e computadores --- */
+/* --- Responsividade para tablets --- */
+@media (min-width: 500px) {
+  #div-last-chapters {
+    /* Arredonda a largura para evitar pequenas partes dos filhos em overflow aparecendo */
+    width: round(80%, 1px);
+    max-height: var(--card-max-height-1);
+  }
+
+  #div-last-navigators {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(100% + 7rem); /* Para dar espaço aos botões de navegação */
+    transform: translate(-50%, -50%);
+  }
+
+  /* - Botões de navegação - */
+  .section-commics-cards > div > button {
+    display: block;
+    flex-shrink: 0;
+    width: 3rem;
+    height: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: none;
+  }
+
+  .section-commics-cards > div > button > svg {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* --- Responsividade para computadores --- */
+@media (min-width: 800px) {
+  header > ul > li > * {
+    display: block;
+  }
+  #ul-last-chapters > li {
+    padding: 0 1rem;
+    width: 100%;
+  }
+
+  #ul-last-chapters > li > * {
+    max-height: 60dvh;
+  }
+
+  #ul-last-chapters > li > div {
+    overflow: auto;
+    scrollbar-width: none;
+  }
+
+  .last-chapters-chapter-info {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 1;
+    flex-grow: 1;
+  }
+
+  #div-last-chapters-indicators {
+    left: auto;
+    right: 1rem;
+  }
+}
+
+/* - Responsividade Específica - */
+@media screen and (max-width: 499px) and (max-width: 799px) {
+  .ul-cards-collection > li {
+    width: calc(100% / 3);
+  }
+}
+@media screen and (min-width: 500px) and (max-width: 649px) {
+  .ul-cards-collection > li {
+    width: calc(100% / 4);
+  }
+}
+@media screen and (min-width: 650px) and (max-width: 799px) {
+  .ul-cards-collection > li {
+    width: calc(100% / 5);
+  }
+}
+@media screen and (min-width: 800px) and (max-width: 1099px) {
+  .ul-cards-collection > li {
+    width: calc(100% / 6);
+  }
+}
+@media screen and (min-width: 1100px) and (max-width: 1399px) {
+  .ul-cards-collection > li {
+    width: calc(100% / 7);
+  }
+}
+@media screen and (min-width: 1400px) {
+  .ul-cards-collection > li {
+    width: calc(100% / 8);
+  }
+}
+@media screen and (min-width: 2560px) {
+  .ul-cards-collection > li {
+    width: calc(100% / 10);
+  }
+}

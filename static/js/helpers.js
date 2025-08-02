@@ -11,7 +11,7 @@ function fetchSvg(image) {
 
       // Preserva o id e as classes da <img> original
       inlineSvg.id = image.id;
-      inlineSvg.className = image.className;
+      inlineSvg.classList = image.classList;
 
       image.parentNode.replaceChild(inlineSvg, image);
     });

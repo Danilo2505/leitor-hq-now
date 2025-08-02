@@ -1,5 +1,6 @@
 /.venv
 /__pycache__
+/scraper_utils/__pycache__
 .replit
 poetry.lock
 pyproject.toml

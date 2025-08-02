@@ -8,6 +8,14 @@
     width: 100% !important;
     object-position: center !important;
   }
+
+  #button-read-mode > svg:first-child {
+    display: flex;
+  }
+
+  #button-read-mode > svg:last-child {
+    display: none;
+  }
 }
 
 [toolbar-mode="minimized"] {
