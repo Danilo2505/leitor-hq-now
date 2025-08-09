@@ -55,8 +55,10 @@ setFullscreenMode();
 deactivateNavigationButtons();
 waitSvgFetching(hideLoadScreen);
 
+/*
 // Define uma variável CSS com a altura visível da tela (usado em layout responsivo)
 document.documentElement.style.setProperty(
   "--real-height",
   `${getVisibleHeight()}px`
 );
+*/

@@ -1,3 +1,21 @@
+// Cria um delay que pode ser reiniciado
+function createResettableDelay(callback, waitTimeMS) {
+  let timeoutId;
+
+  function start() {
+    clearTimeout(timeoutId); // Limpa o timeout
+    timeoutId = setTimeout(callback, waitTimeMS); // Define um timeout
+  }
+
+  function reset() {
+    start();
+  }
+
+  start();
+
+  return { reset };
+}
+
 // Substitui uma <img> com SVG externo por um SVG inline no DOM
 function fetchSvg(image) {
   fetch(image.src)
@@ -15,6 +33,11 @@ function fetchSvg(image) {
 
       image.parentNode.replaceChild(inlineSvg, image);
     });
+}
+
+// Retorna a altura visível da janela (considera zoom e teclado virtual)
+function getVisibleHeight() {
+  return window.visualViewport?.height ?? window.innerHeight;
 }
 
 // Verifica se uma imagem é vertical (retorna true) ou horizontal (retorna false)
@@ -35,9 +58,4 @@ function sleep(ms) {
 // Executa uma função após 'ms' milissegundos (sem await)
 function sleepNoAwait(ms, callback) {
   setTimeout(callback, ms);
-}
-
-// Retorna a altura visível da janela (considera zoom e teclado virtual)
-function getVisibleHeight() {
-  return window.visualViewport?.height ?? window.innerHeight;
 }

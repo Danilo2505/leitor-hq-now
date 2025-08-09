@@ -22,6 +22,7 @@ const previousCommicsCardsButtons = document.querySelectorAll(
   ".section-commics-cards .button-previous"
 );
 previousCommicsCardsButtons.forEach((element) => {
+  previousCommicsCardsButtons.forEach(() => {});
   element.addEventListener("click", () => {
     previousCommicsCards(
       element.parentElement.querySelector(".ul-cards-collection")
@@ -33,6 +34,7 @@ const nextCommicsCardsButtons = document.querySelectorAll(
   ".section-commics-cards .button-next"
 );
 nextCommicsCardsButtons.forEach((element) => {
+  nextCommicsCardsButtons.forEach((element) => {});
   element.addEventListener("click", () => {
     nextCommicsCards(
       element.parentElement.querySelector(".ul-cards-collection")
@@ -40,5 +42,4 @@ nextCommicsCardsButtons.forEach((element) => {
   });
 });
 
-//lastChaptersAutoScrolling(2000);
 lastChaptersAutoScrolling(10000);

@@ -1,15 +1,9 @@
 :root {
-  --card-max-height-1: 70dvh;
+  --card-max-height-1: 70vmin;
+  --card-max-height-2: 60vmin;
+  --card-max-width-1: 60dvw;
+  --card-max-width-2: 40dvw;
   --cards-collection-padding: 8px;
-}
-
-/* ----- Estilização por Classes ----- */
-.hidden-element {
-  display: none;
-}
-
-.inactive-button {
-  background-color: var(--bg-color-2);
 }
 
 /* ----- Menu ----- */
@@ -46,7 +40,8 @@ header > ul {
 }
 
 header > ul > li,
-header > ul > li > #button-add-comics {
+header > ul > li > #button-add-comics,
+header > ul > li > #button-settings {
   display: flex;
   height: 100%;
   width: fit-content;
@@ -55,18 +50,18 @@ header > ul > li > #button-add-comics {
   cursor: pointer;
 }
 
-header > ul > li:has(#button-add-comics) > button {
+header > ul > li > button {
   background-color: transparent;
   padding: 0;
 }
 
 header > ul > li:hover {
   color: var(--accent-color-3);
-  /* "Borda" sob o elemento se mudar a posição dele */
-  box-shadow: inset 0 -0.125rem 0 currentColor;
 }
 
-header > ul > li > * {
+header > ul > li > *,
+header > ul > li > #button-add-comics > a,
+header > ul > li > #button-settings > a {
   display: none;
   height: fit-content;
   color: currentColor;
@@ -78,15 +73,11 @@ header > ul > li svg {
   height: 1.75rem;
 }
 
-header > ul > li #svg-add-comics {
-  display: block;
-}
-
 /* ----- Conteúdo principal ----- */
 main {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  padding: 0 1rem;
   flex-grow: 1;
   flex-shrink: 1;
   min-width: 0;
@@ -123,9 +114,9 @@ main {
   width: 100%;
   border-radius: 1rem;
   border: 2px solid var(--accent-color-1);
-  aspect-ratio: 2/3;
   object-fit: cover;
   object-position: top;
+  aspect-ratio: 2 / 3;
 }
 
 .last-chapters-chapter-info {
@@ -152,7 +143,7 @@ main {
 
 #div-last-chapters-indicators > * {
   background-color: var(--accent-color-1);
-  border-radius: 50dvh;
+  border-radius: 50vh;
   aspect-ratio: 5 / 1;
 }
 
@@ -173,7 +164,6 @@ main {
 .ul-cards-collection {
   flex-grow: 1;
   display: flex;
-  /* gap: 0.5rem; */
   overflow: auto;
   scrollbar-width: none;
 }
@@ -182,9 +172,8 @@ main {
   position: relative;
   display: flex;
   overflow: clip;
-  aspect-ratio: 2/3;
+  aspect-ratio: 2 / 3;
   padding: 0 calc(var(--cards-collection-padding) / 2);
-  /* border: 2px solid var(--accent-color-1); */
   flex-shrink: 0;
 }
 
@@ -197,14 +186,19 @@ main {
 }
 
 .ul-cards-collection > li > span {
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
   width: calc(100% - var(--cards-collection-padding));
   box-sizing: border-box;
   position: absolute;
   bottom: 0;
   padding: 0.5rem;
-  /* width: 100%; */
   flex-grow: 1;
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+.ul-cards-collection > li:hover > span {
+  transform: translateY(0);
 }
 
 /* - Botões de navegação - */
@@ -212,41 +206,15 @@ main {
   display: none;
 }
 
-/* - Botões de navegação - */
-/*
-.section-commics-cards > div {
-  display: flex;
-}
-
-.section-commics-cards > div > button {
-  visibility: hidden;
-  z-index: 1;
-  position: absolute;
-  width: 3rem;
-  height: 100%;
-  max-height: var(--card-max-height-2);
-  background-color: rgba(0, 0, 0, 0.7);
-  border: none;
-}
-
-.section-commics-cards > div > button:hover {
-  visibility: visible;
-}
-
-.section-commics-cards > div > button > svg {
-  width: 100%;
-  height: auto;
-}
-
-.section-commics-cards > div > .button-next {
-  right: 0;
-}
-*/
-
 /* ----- Responsividade ----- */
 /* --- Responsividade para tablets e computadores --- */
 /* --- Responsividade para tablets --- */
 @media (min-width: 500px) {
+  header > ul > li > #button-add-comics > a,
+  header > ul > li > #button-settings > a {
+    display: block;
+  }
+
   #div-last-chapters {
     /* Arredonda a largura para evitar pequenas partes dos filhos em overflow aparecendo */
     width: round(80%, 1px);
@@ -257,8 +225,16 @@ main {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: calc(100% + 7rem); /* Para dar espaço aos botões de navegação */
+    width: calc(100% + 5rem); /* Para dar espaço aos botões de navegação */
     transform: translate(-50%, -50%);
+  }
+
+  #ul-last-chapters > li {
+    padding: 0 1rem;
+  }
+
+  .ul-cards-collection {
+    overflow: hidden;
   }
 
   /* - Botões de navegação - */
@@ -282,16 +258,28 @@ main {
   header > ul > li > * {
     display: block;
   }
+
+  header > ul > li:hover {
+    /* "Borda" sob o elemento se mudar a posição dele */
+    box-shadow: inset 0 -0.125rem 0 currentColor;
+  }
+
   #ul-last-chapters > li {
     padding: 0 1rem;
     width: 100%;
   }
 
   #ul-last-chapters > li > * {
-    max-height: 60dvh;
+    max-height: var(--card-max-height-2);
+  }
+
+  #ul-last-chapters > li > img {
+    max-width: var(--card-max-width-2);
+    max-height: var(--card-max-height-2);
   }
 
   #ul-last-chapters > li > div {
+    height: var(--card-max-height-2);
     overflow: auto;
     scrollbar-width: none;
   }

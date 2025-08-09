@@ -34,17 +34,6 @@ function restoreScrollPosition() {
   storeScrollSnapshot();
 }
 
-// Quando o tamanho da janela mudar ou quando a orientação mudar...
-window.addEventListener("resize", () => {
-  document.documentElement.style.setProperty(
-    "--real-height",
-    `${getVisibleHeight()}px`
-  );
-
-  // Ajusta a posição do scroll
-  restoreScrollPosition();
-});
-
 // Atualiza o estado dos Botões de Navegação quando o scroll termina
 window.addEventListener("scrollend", updateButtonState);
 
@@ -56,7 +45,6 @@ const buttonToggleToolbarMode = document.querySelector(
   "#button-toggle-toolbar-mode"
 );
 buttonToggleToolbarMode.addEventListener("click", async () => {
-  console.log("A");
   let currentToolbarMode = localStorage.getItem("toolbarMode");
 
   if (currentToolbarMode == "expanded") {

@@ -13,6 +13,112 @@ function getCurrentLastChapterPageIndex() {
   }
 }
 
+function activateNavigationButtons(parentElement) {
+  const buttonNext = parentElement.querySelector("button.button-next");
+  const buttonPrevious = parentElement.querySelector("button.button-previous");
+
+  buttonNext.classList.remove("inactive-button");
+  buttonNext.disabled = false;
+
+  buttonPrevious.classList.remove("inactive-button");
+  buttonPrevious.disabled = false;
+}
+
+function deactivateNavigationButtons(parentElement) {
+  const buttonNext = parentElement.querySelector("button.button-next");
+  const buttonPrevious = parentElement.querySelector("button.button-previous");
+
+  buttonNext.classList.add("inactive-button");
+  buttonNext.disabled = true;
+
+  buttonPrevious.classList.add("inactive-button");
+  buttonPrevious.disabled = true;
+}
+
+function updateNavigationButtonsState(parentElement) {
+  console.log(parentElement.querySelector(".ul-cards-collection"));
+  const element = parentElement.querySelector(".ul-cards-collection");
+  const elementWidth = element?.clientWidth || 0;
+  const scrollLeft = element.scrollLeft;
+  const maxScroll = element.scrollWidth;
+
+  console.log(elementWidth);
+  console.log(scrollLeft);
+  console.log(maxScroll);
+
+  if (scrollLeft === 0) {
+    deactivateNavigationButtons(parentElement);
+    const buttonNext = parentElement.querySelector("button.button-next");
+    buttonNext.classList.remove("inactive-button");
+    buttonNext.disabled = false;
+  } else if (scrollLeft >= maxScroll - elementWidth) {
+    deactivateNavigationButtons(parentElement);
+    const buttonPrevious = parentElement.querySelector(
+      "button.button-previous"
+    );
+    buttonPrevious.classList.remove("inactive-button");
+    buttonPrevious.disabled = false;
+  } else {
+    activateNavigationButtons(parentElement);
+  }
+}
+
+async function previousCommicsCards(
+  element,
+  duration = 1.8,
+  ease = "sine.out"
+) {
+  const scrollStep = element.offsetWidth;
+  const currentScroll = element.scrollLeft;
+  const finalScroll = Math.floor(currentScroll / scrollStep) - scrollStep;
+
+  // Desativa scroll-snap temporariamente para evitar conflitos
+  element.style.scrollSnapType = "none";
+
+  // Desativa os botões de navegação apra evitar problemas na animação
+  deactivateNavigationButtons(element.parentElement);
+
+  gsap.to(element, {
+    scrollLeft: finalScroll,
+    duration: duration,
+    ease: ease,
+    onComplete: () => {
+      // Atualiza o estado dos botões de navegação
+      updateNavigationButtonsState(element.parentElement);
+      // Reativa scroll-snap
+      element.style.scrollSnapType = "x mandatory";
+      // Atualiza o indicador
+      updateLastChaptersIndicators();
+    },
+  });
+}
+
+async function nextCommicsCards(element, duration = 1.8, ease = "sine.out") {
+  const scrollStep = element.offsetWidth;
+  const currentScroll = element.scrollLeft;
+  const finalScroll = Math.floor(currentScroll / scrollStep) + scrollStep;
+
+  // Desativa scroll-snap temporariamente para evitar conflitos
+  element.style.scrollSnapType = "none";
+
+  // Desativa os botões de navegação apra evitar problemas na animação
+  deactivateNavigationButtons(element.parentElement);
+
+  gsap.to(element, {
+    scrollLeft: finalScroll,
+    duration: duration,
+    ease: ease,
+    onComplete: () => {
+      // Atualiza o estado dos botões de navegação
+      updateNavigationButtonsState(element.parentElement);
+      // Reativa scroll-snap
+      element.style.scrollSnapType = "x mandatory";
+      // Atualiza o indicador
+      updateLastChaptersIndicators();
+    },
+  });
+}
+
 function updateLastChaptersIndicators() {
   const currentIndex = getCurrentLastChapterPageIndex();
 
@@ -29,7 +135,7 @@ function updateLastChaptersIndicators() {
   });
 }
 
-function previousLastChapter(duration = 1.5, ease = "sine.out") {
+async function previousLastChapter(duration = 1.5, ease = "sine.out") {
   const ul = document.querySelector("#ul-last-chapters");
   const firstItem = ul.children[0];
   const lastItem = ul.children[ul.children.length - 1];
@@ -41,29 +147,32 @@ function previousLastChapter(duration = 1.5, ease = "sine.out") {
   // Desativa scroll-snap temporariamente para evitar conflitos
   ul.style.scrollSnapType = "none";
 
+  // Desativa os botões de navegação apra evitar problemas na animação
+  deactivateNavigationButtons(
+    ul.parentElement.querySelector("#div-last-navigators")
+  );
+
   if (currentScroll === 0) {
-    // 1. Clonar o último item e colocar no início
+    // Clona o último item e coloca no início
     const clone = lastItem.cloneNode(true);
     ul.insertBefore(clone, firstItem);
-
-    // 2. Scrollar instantaneamente para a posição do clone (1 item à frente do zero)
+    // Scrolla instantaneamente para a posição do clone (1 item à frente do zero)
     ul.scrollLeft = scrollStep;
-
-    // 3. Animar de scrollStep até 0 (onde está o clone)
+    // Anima de scrollStep até 0 (onde está o clone)
     gsap.to(ul, {
       scrollLeft: 0,
       duration: duration,
       ease: ease,
       onComplete: () => {
-        // 4. Após a animação, scrolla instantaneamente para o último item real
+        // Após a animação, scrolla instantaneamente para o último item real
         ul.removeChild(clone);
         ul.scrollLeft = ul.scrollWidth - ul.clientWidth;
-
-        // 5. Reativa scroll-snap
-        ul.style.scrollSnapType = "x mandatory";
-
-        // 6. Atualiza indicador
-        updateLastChaptersIndicators();
+        ul.style.scrollSnapType = "x mandatory"; // Reativa scroll-snap
+        updateLastChaptersIndicators(); // Atualiza o indicador
+        // Ativa os botões de navegação
+        activateNavigationButtons(
+          ul.parentElement.querySelector("#div-last-navigators")
+        );
       },
     });
   } else {
@@ -75,14 +184,18 @@ function previousLastChapter(duration = 1.5, ease = "sine.out") {
       duration: duration,
       ease: ease,
       onComplete: () => {
-        ul.style.scrollSnapType = "x mandatory";
-        updateLastChaptersIndicators();
+        ul.style.scrollSnapType = "x mandatory"; // Reativa scroll-snap
+        updateLastChaptersIndicators(); // Atualiza o indicador
+        // Ativa os botões de navegação
+        activateNavigationButtons(
+          ul.parentElement.querySelector("#div-last-navigators")
+        );
       },
     });
   }
 }
 
-function nextLastChapter(duration = 1.5, ease = "sine.out") {
+async function nextLastChapter(duration = 1.5, ease = "sine.out") {
   const ul = document.querySelector("#ul-last-chapters");
   const firstItem = ul.children[0];
   if (!firstItem) return;
@@ -94,6 +207,11 @@ function nextLastChapter(duration = 1.5, ease = "sine.out") {
 
   // Desativa scroll-snap temporariamente para evitar conflitos
   ul.style.scrollSnapType = "none";
+
+  // Desativa os botões de navegação apra evitar problemas na animação
+  deactivateNavigationButtons(
+    ul.parentElement.querySelector("#div-last-navigators")
+  );
 
   // Se for o último item (ou passou dele)
   if (nextScroll > maxScroll) {
@@ -112,9 +230,12 @@ function nextLastChapter(duration = 1.5, ease = "sine.out") {
         ul.scrollLeft = 0;
         // Remove o clone
         ul.removeChild(clone);
-        // Reativa scroll-snap
-        ul.style.scrollSnapType = "x mandatory";
-        updateLastChaptersIndicators();
+        ul.style.scrollSnapType = "x mandatory"; // Reativa scroll-snap
+        updateLastChaptersIndicators(); // Atualiza o indicador
+        // Ativa os botões de navegação
+        activateNavigationButtons(
+          ul.parentElement.querySelector("#div-last-navigators")
+        );
       },
     });
   } else {
@@ -124,60 +245,59 @@ function nextLastChapter(duration = 1.5, ease = "sine.out") {
       duration: duration,
       ease: ease,
       onComplete: () => {
-        ul.style.scrollSnapType = "x mandatory";
-        updateLastChaptersIndicators();
+        ul.style.scrollSnapType = "x mandatory"; // Reativa scroll-snap
+        updateLastChaptersIndicators(); // Atualiza o indicador
+        // Ativa os botões de navegação
+        activateNavigationButtons(
+          ul.parentElement.querySelector("#div-last-navigators")
+        );
       },
     });
   }
 }
 
-async function lastChaptersAutoScrolling(waitTimeMS = 5000) {
-  await sleep(waitTimeMS);
+async function lastChaptersAutoScrolling(waitTimeMS = 10000) {
+  let timeoutId = null;
 
-  while (true) {
-    nextLastChapter();
-    await sleep(waitTimeMS);
+  function startTimer() {
+    // console.log("Iniciando o Timer...");
+    if (timeoutId) return; // se já está rodando, não faz nada
+    timeoutId = setTimeout(() => {
+      nextLastChapter();
+      timeoutId = null;
+      startTimer(); // reinicia o timer para continuar o loop
+    }, waitTimeMS);
   }
-}
 
-function previousCommicsCards(element, duration = 1.5, ease = "sine.out") {
-  const scrollStep = element.offsetWidth;
-  const currentScroll = element.scrollLeft;
-  const finalScroll = Math.floor(currentScroll / scrollStep) - scrollStep;
+  function pauseTimer() {
+    // console.log("Pausando o Timer...");
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      timeoutId = null;
+    }
+  }
 
-  // Desativa scroll-snap temporariamente para evitar conflitos
-  element.style.scrollSnapType = "none";
+  function resetTimer() {
+    // console.log("Reiniciando o Timer...");
+    pauseTimer();
+    startTimer();
+  }
 
-  gsap.to(element, {
-    scrollLeft: finalScroll,
-    duration: duration,
-    ease: ease,
-    onComplete: () => {
-      // Reativa scroll-snap
-      element.style.scrollSnapType = "x mandatory";
-      // Atualiza o indicador
-      updateLastChaptersIndicators();
-    },
-  });
-}
+  const ul = document.querySelector("#ul-last-chapters");
+  // Pausa quando o mouse entra no elemento
+  ul.addEventListener("mouseenter", pauseTimer);
+  // Retoma quando o mouse sai do elemento
+  ul.addEventListener("mouseleave", startTimer);
+  // Reinicia o timer quando houver click em algum botão de navegação
+  ul.parentElement
+    .querySelectorAll("#div-last-navigators > button")
+    .forEach((element) => {
+      element.addEventListener("click", resetTimer);
+    });
 
-function nextCommicsCards(element, duration = 1.5, ease = "sine.out") {
-  const scrollStep = element.offsetWidth;
-  const currentScroll = element.scrollLeft;
-  const finalScroll = Math.floor(currentScroll / scrollStep) + scrollStep;
+  // Começa o timer
+  startTimer();
 
-  // Desativa scroll-snap temporariamente para evitar conflitos
-  element.style.scrollSnapType = "none";
-
-  gsap.to(element, {
-    scrollLeft: finalScroll,
-    duration: duration,
-    ease: ease,
-    onComplete: () => {
-      // Reativa scroll-snap
-      element.style.scrollSnapType = "x mandatory";
-      // Atualiza o indicador
-      updateLastChaptersIndicators();
-    },
-  });
+  // Retorna funções para controle externo, se quiser
+  return { startTimer, pauseTimer, resetTimer };
 }
