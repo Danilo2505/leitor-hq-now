@@ -491,5 +491,33 @@
       <span class="span-progress-info"></span>
       <span>Carregando...</span>
     </div>
+    
+    <dialog
+      id="modal-load-comics"
+      class="modal"
+      aria-labelledby="dialog-title"
+    >
+      <div>
+        <h2>Carregar HQ</h2>
+        <form method="dialog">
+          <label for="link">Link da HQ:</label>
+          <input
+            type="url"
+            id="link"
+            placeholder="Digite o link da HQ"
+            required
+          />
+          <button id="button-load-comics" type="submit">Carregar</button>
+        </form>
+        <button
+          id="button-close-modal-load-comics"
+          type="button"
+          class="close-modal"
+          aria-label="Fechar modal"
+        >
+          X
+        </button>
+      </div>
+    </dialog>
   </body>
 </html>

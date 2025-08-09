@@ -4,8 +4,9 @@
 
 - [x] Ajustar CSS para Mobile
 
-- [ ] Consertar bugs
+- [ ] Criar um arquivo .js para intermediar o front-end e back-end
 
+- [ ] Consertar bugs
   - [ ] Na página do leitor, ajustar o scroll para quando mudar o tipo de vizualização (página única ou dupla)
   - [ ] Implementar o modal de confugurações
     - [ ] Switch para desativar animações
